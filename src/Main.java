@@ -29,6 +29,18 @@ public class Main {
             }
 
 
+            for (int i = 0; i < numProc; i++) {
+                BufferedReader lectura=new BufferedReader(new FileReader("out/production/PracticaPsP/FicheroTemp"+i));
+                String linea;
+                BufferedWriter writer = new BufferedWriter(new FileWriter("transacciones_final.csv"));
+
+                while ((linea=lectura.readLine())!=null){
+                writer.write(linea);
+                writer.newLine();
+                }
+
+            }
+
 
         } catch (IOException e) {
             System.out.println(e);

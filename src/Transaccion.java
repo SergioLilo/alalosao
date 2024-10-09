@@ -6,6 +6,7 @@
     private String fecha;
     private double monto;
     private String moneda;
+    private boolean moroso;
 
     public Transaccion(String id, String cliente, String fecha, double monto, String moneda) {
         this.id = id;
@@ -54,6 +55,14 @@
     public void setMoneda(String moneda) {
         this.moneda = moneda;
     }
+
+        public boolean isMoroso() {
+            return moroso;
+        }
+
+        public void setMoroso(boolean moroso) {
+            this.moroso = moroso;
+        }
 
         @Override
         public String toString() {

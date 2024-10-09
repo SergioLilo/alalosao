@@ -1,6 +1,7 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class ProcesamientoArchivo {
 
             conversionMoneda(parteFichero);
             comprobarMoroso(parteFichero);
+            escribirResultado(parteFichero,i);
 
             //System.out.println(parteFichero);
 
@@ -98,9 +100,25 @@ public class ProcesamientoArchivo {
         for (Transaccion tr: parteFichero){
             if(tr.getMonto()>=50_000d){
                 System.err.println("[ERROR] Fraude detectado en la transacción ID: "+tr.getId()+". Monto: "+tr.getMonto()+"€");
+                tr.setMoroso(true);
             }
         }
-    }
 
+    }
+    private static void escribirResultado(ArrayList<Transaccion> parteFichero,int i) throws IOException {
+
+
+
+        BufferedWriter escritor = new BufferedWriter(new FileWriter("FicheroTemp"+i+".csv"));
+
+        for (Transaccion tr: parteFichero){
+            escritor.write(tr.getId()+","+ tr.getCliente());
+            if (tr.isMoroso()==true){
+                escritor.write(",ALERTA");
+            }
+            escritor.newLine();
+        }
+        escritor.flush();
+    }
 
 }
