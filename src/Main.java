@@ -8,39 +8,27 @@ import java.util.Scanner;
 public class Main {
 
     public static String rutaFichero = "src/monedas";
-
+    public static String h="HOLA";
     public static void main(String[] args) {
 
         Scanner teclado=new Scanner(System.in);
-        List<String> fichero = new ArrayList<>();
         System.out.println("Introduce el numero de procesos");
         int numProc=teclado.nextInt();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(rutaFichero))) {
-            String linea;
-            while ((linea = br.readLine()) != null) {
-                fichero.add(linea);
-            }
-            fichero.removeFirst();
-
-            int j=0;
-            int k=fichero.size()/numProc;
+        try  {
 
             ProcessBuilder constructorProcesos= new ProcessBuilder("java", ProcesamientoArchivo.class.getName());
             constructorProcesos.redirectOutput(ProcessBuilder.Redirect.INHERIT);
-            constructorProcesos.redirectError(ProcessBuilder.Redirect.appendTo(new File("SalidaError.txt")));
+            constructorProcesos.redirectError(ProcessBuilder.Redirect.appendTo(new File("errores_conversion.csv")));
             constructorProcesos.directory(new File("out/production/PracticaPsP"));
 
+
             for (int i = 0; i < numProc; i++) {
-
-                constructorProcesos.command("java",ProcesamientoArchivo.class.getName(),String.valueOf(j),String.valueOf(k),String.valueOf(numProc),String.valueOf(i));
+                constructorProcesos.command("java",ProcesamientoArchivo.class.getName(),String.valueOf(numProc),String.valueOf(i));
                 constructorProcesos.start();
-
-
-                j=k;
-                k=j+(fichero.size()/numProc);
-
             }
+
+
 
         } catch (IOException e) {
             System.out.println(e);
