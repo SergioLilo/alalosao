@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ProcesamientoArchivo {
 
-    public static String rutaFichero = "monedas";
+
 
     public static void main(String[] args) {
 
@@ -17,6 +17,7 @@ public class ProcesamientoArchivo {
 
         int numProc=Integer.parseInt(args[0]);
         int i =Integer.parseInt(args[1]);
+        String rutaFichero = args[2];
 
         try (BufferedReader br = new BufferedReader(new FileReader(rutaFichero))) {
             String linea;

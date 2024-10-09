@@ -10,7 +10,7 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
 
-    public static String rutaFichero = "src/monedas";
+
 
     public static void main(String[] args) {
 
@@ -18,6 +18,8 @@ public class Main {
         List<Process> procesos = new ArrayList<>();
         System.out.println("Introduce el numero de procesos");
         int numProc=teclado.nextInt();
+        System.out.println("Introduce el nombre del fichero");
+        String nombreFichero=teclado.next();
 
         try  {
             Files.deleteIfExists(Path.of("errores_conversion.csv"));
@@ -27,7 +29,7 @@ public class Main {
             constructorProcesos.directory(new File("out/production/PracticaPsP"));
 
             for (int i=0; i < numProc; i++) {
-                constructorProcesos.command("java",ProcesamientoArchivo.class.getName(),String.valueOf(numProc),String.valueOf(i));
+                constructorProcesos.command("java",ProcesamientoArchivo.class.getName(),String.valueOf(numProc),String.valueOf(i),nombreFichero);
                Process proceso = constructorProcesos.start();
                procesos.add(proceso);
             }
