@@ -2,6 +2,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,11 +87,13 @@ public class ProcesamientoArchivo {
 
         for (Transaccion tr: parteFichero){
             if (tr.getMoneda().equals("USD")){
-                tr.setMonto(tr.getMonto()*0.85);
+                tr.setMonto( tr.getMonto()*0.85d);
                 tr.setMoneda("EUR");
             }else if(tr.getMoneda().equals("GBP")){
-                tr.setMonto(tr.getMonto()*1.17);
+
+                tr.setMonto((tr.getMonto()*1.17d));
                 tr.setMoneda("EUR");
+
             }
 
         }
@@ -108,12 +111,12 @@ public class ProcesamientoArchivo {
     private static void escribirResultado(ArrayList<Transaccion> parteFichero,int i) throws IOException {
 
 
-
+        DecimalFormat df = new DecimalFormat("#.00");
         BufferedWriter escritor = new BufferedWriter(new FileWriter("FicheroTemp"+i+".csv"));
 
         for (Transaccion tr: parteFichero){
-            escritor.write(tr.getId()+","+ tr.getCliente());
-            if (tr.isMoroso()==true){
+            escritor.write(tr.getId()+","+ tr.getCliente()+","+tr.getFecha()+","+df.format(tr.getMonto())+","+tr.getMoneda());
+            if (tr.isMoroso()){
                 escritor.write(",ALERTA");
             }
             escritor.newLine();
