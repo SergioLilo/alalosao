@@ -101,10 +101,11 @@ public class ProcesamientoArchivo {
         }
     }
     private static void comprobarMoroso(ArrayList<Transaccion> parteFichero){
+        DecimalFormat df = new DecimalFormat("#.00");
 
         for (Transaccion tr: parteFichero){
             if(tr.getMonto()>=50_000d){
-                System.err.println("[ERROR] Fraude detectado en la transacción ID: "+tr.getId()+". Monto: "+tr.getMonto()+"€");
+                System.err.println("[ERROR] Fraude detectado en la transacción ID: "+tr.getId()+". Monto: "+ df.format(tr.getMonto())+"€");
                 tr.setMoroso(true);
             }
         }
