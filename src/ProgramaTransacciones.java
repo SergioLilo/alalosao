@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
+public class ProgramaTransacciones {
 
 
 
@@ -16,25 +16,29 @@ public class Main {
 
         Scanner teclado=new Scanner(System.in);
         List<Process> procesos = new ArrayList<>();
+
         System.out.println("Introduce el numero de procesos");
         int numProc=teclado.nextInt();
         System.out.println("Introduce el nombre del fichero");
         String nombreFichero=teclado.next();
 
         try  {
+
             Files.deleteIfExists(Path.of("errores_conversion.csv"));
             ProcessBuilder constructorProcesos= new ProcessBuilder("java", ProcesamientoArchivo.class.getName());
             constructorProcesos.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             constructorProcesos.redirectError(ProcessBuilder.Redirect.appendTo(new File("errores_conversion.csv")));
             constructorProcesos.directory(new File("out/production/PracticaPsP"));
 
+
             for (int i=0; i < numProc; i++) {
                 constructorProcesos.command("java",ProcesamientoArchivo.class.getName(),String.valueOf(numProc),String.valueOf(i),nombreFichero);
                Process proceso = constructorProcesos.start();
                procesos.add(proceso);
-            }
-            procesos.getLast().waitFor();
 
+            }
+
+            procesos.getLast().waitFor();
             BufferedWriter writer = new BufferedWriter(new FileWriter("transacciones_final.csv"));
             escrbirResultado(numProc, writer);
 
@@ -60,6 +64,19 @@ public class Main {
             lectura.close();
             Path ruta = Paths.get("out/production/PracticaPsP/FicheroTemp" +j+".csv");
             Files.delete(ruta);
+        }
+    }
+
+
+    private  static  void leerArchivo( List<String> fichero,String rutaFichero){
+        try (BufferedReader br = new BufferedReader(new FileReader(rutaFichero))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                fichero.add(linea);
+
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

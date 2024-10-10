@@ -27,6 +27,7 @@ public class ProcesamientoArchivo {
             fichero.removeFirst();
             int j=0;
             int k=fichero.size()/numProc;
+
             j=importarLineas(numProc,i,j,k,fichero,parteFichero);
             comprobadorLineasSobrantes(numProc, i, j, fichero, parteFichero);
 
